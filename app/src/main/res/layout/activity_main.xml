@@ -8,49 +8,81 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/mainActivityTvGananciasAux"
-        android:textSize="24dp"
+        android:id="@+id/playerNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ganancias: " />
+        android:text="Nombre del Jugador"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/coinAmountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monedas a Jugar"
+        android:textSize="18sp"
+        android:layout_below="@+id/playerNameTextView"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/mainActivityTvGananciasAux"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ganancias: "
+        android:textSize="24sp"
+        android:layout_below="@+id/coinAmountTextView"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/mainActivityTvGanancias"
         android:textColor="@color/black"
-        android:textSize="24dp"
-        android:layout_toRightOf="@+id/mainActivityTvGananciasAux"
+        android:textSize="24sp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mainActivityTvGananciasAux"
+        android:layout_centerHorizontal="true"/>
 
     <LinearLayout
         android:id="@+id/mainActivityLl"
-        android:layout_below="@+id/mainActivityTvGanancias"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="200dp"
+        android:layout_below="@+id/mainActivityTvGanancias"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/mainActivitySlot2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <ImageView
             android:id="@+id/mainActivitySlot1"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="match_parent" />
-        <ImageView
-            android:id="@+id/mainActivitySlot2"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
         <ImageView
             android:id="@+id/mainActivitySlot3"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <Button
         android:id="@+id/mainActivityBtJugar"
-        android:text="Jugar"
-        android:layout_below="@+id/mainActivityLl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mainActivityLl"
+        android:layout_marginTop="157dp"
+        android:text="Jugar" />
+
+    <Button
+        android:id="@+id/endGameButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mainActivityBtJugar"
+        android:layout_marginTop="16dp"
+        android:text="Finalizar Partida y Ver Ranking" />
 
 </RelativeLayout>

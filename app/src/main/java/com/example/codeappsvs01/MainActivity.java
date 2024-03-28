@@ -1,5 +1,6 @@
 package com.example.codeappsvs01;
 
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +35,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        // Obtiene los datos pasados desde StartActivity
+        Intent intent = getIntent();
+        String playerName = intent.getStringExtra("PLAYER_NAME");
+        int coinAmount = intent.getIntExtra("COIN_AMOUNT", 0);
+
+        // Crea una instancia de Player con los datos obtenidos
+        Player Player = new Player(playerName, coinAmount);
+
+        // Encuentra TextViews en tu layout y actualízalos con los datos
+        TextView playerNameTextView = findViewById(R.id.playerNameTextView);
+        TextView coinAmountTextView = findViewById(R.id.coinAmountTextView);
+        playerNameTextView.setText(playerName);
+        coinAmountTextView.setText(getString(R.string.coin_amount, coinAmount));
+
 
         mSlot1 = findViewById(R.id.mainActivitySlot1);
         mSlot2 = findViewById(R.id.mainActivitySlot2);

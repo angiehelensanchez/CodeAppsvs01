@@ -40,4 +40,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Dependencias de Room
+    implementation(libs.room.runtime)
+    implementation(libs.recyclerview)
+    implementation(libs.room.rxjava)
+
+
+    // RxJava y RxAndroid
+    implementation(libs.rxjava)
+    implementation(libs.rxandroid)
 }
