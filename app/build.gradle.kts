@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
+
 }
 
 android {
@@ -45,9 +46,12 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.recyclerview)
     implementation(libs.room.rxjava)
+    
+
 
 
     // RxJava y RxAndroid
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
+
 }
