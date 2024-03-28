@@ -20,7 +20,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
-
 public class RankingActivity extends AppCompatActivity {
 
     private RecyclerView rankingRecyclerView;
@@ -51,6 +50,7 @@ public class RankingActivity extends AppCompatActivity {
             finishAffinity(); // Cierra la aplicación completamente.
         });
 
+        // Llamar a loadRankingData() después de que el RecyclerView se haya inicializado
         loadRankingData();
     }
 
@@ -61,9 +61,14 @@ public class RankingActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io()) // Ejecuta la consulta en el hilo IO
                 .observeOn(AndroidSchedulers.mainThread()) // Observa los resultados en el hilo principal
                 .subscribe(results -> {
-                    // Actualiza la interfaz de usuario con los resultados
-                    rankingAdapter = new RankingAdapter(results);
-                    rankingRecyclerView.setAdapter(rankingAdapter);
+                    if (results.isEmpty()) {
+                        // Configurar RecyclerView con el adaptador de respaldo EmptyAdapter
+                        rankingRecyclerView.setAdapter(new EmptyAdapter());
+                    } else {
+                        // Si hay resultados, actualiza la interfaz de usuario con los resultados
+                        rankingAdapter = new RankingAdapter(results);
+                        rankingRecyclerView.setAdapter(rankingAdapter);
+                    }
                 }, error -> {
                     // Maneja posibles errores aquí
                     Log.e("RankingActivity", "Error loading ranking data", error);
@@ -74,6 +79,8 @@ public class RankingActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        executor.shutdown(); // Asegura que el ExecutorService se detenga al destruir la actividad.
+        executor.shutdown(); // Asegura que el ExecutorService se detenga al cerrar la actividad.
+
     }
 }
+

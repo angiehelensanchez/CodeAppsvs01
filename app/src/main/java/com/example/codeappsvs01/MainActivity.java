@@ -15,7 +15,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         playerNameTextView.setText(playerName);
         coinAmountTextView.setText(getString(R.string.coin_amount, coinAmount));
 
-        // Configura el botón para finalizar la partida y mostrar el ranking
+        // Botón para finalizar la partida y mostrar el ranking
         Button endGameButton = findViewById(R.id.endGameButton);
         endGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,6 +185,5 @@ public class MainActivity extends AppCompatActivity {
         mIntGanancias = mIntGanancias -1;
         mGanancias.setText(String.valueOf(mIntGanancias));
     }
-
 }
 
