@@ -31,8 +31,8 @@ public class StartActivity extends AppCompatActivity {
                 }
 
                 Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                intent.putExtra("playerName", playerName);
-                intent.putExtra("coinAmount", coinAmount);
+                intent.putExtra("PLAYER_NAME", playerName);
+                intent.putExtra("COIN_AMOUNT", coinAmount);
                 startActivity(intent);
             }
         });

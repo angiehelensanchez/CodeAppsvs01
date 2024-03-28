@@ -13,9 +13,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -49,6 +46,16 @@ public class MainActivity extends AppCompatActivity {
         TextView coinAmountTextView = findViewById(R.id.coinAmountTextView);
         playerNameTextView.setText(playerName);
         coinAmountTextView.setText(getString(R.string.coin_amount, coinAmount));
+
+        // Configura el botón para finalizar la partida y mostrar el ranking
+        Button endGameButton = findViewById(R.id.endGameButton);
+        endGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, RankingActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         mSlot1 = findViewById(R.id.mainActivitySlot1);

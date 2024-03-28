@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Nombre del Jugador"
         android:textSize="18sp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="100dp"
         android:layout_centerHorizontal="true"/>
 
     <TextView
@@ -74,15 +74,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mainActivityLl"
-        android:layout_marginTop="157dp"
+        android:layout_marginTop="78dp"
         android:text="Jugar" />
 
     <Button
         android:id="@+id/endGameButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mainActivityBtJugar"
-        android:layout_marginTop="16dp"
-        android:text="Finalizar Partida y Ver Ranking" />
+        android:text="Finalizar Partida y Ver Ranking"
+        android:layout_below="@id/mainActivityBtJugar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
 
 </RelativeLayout>
