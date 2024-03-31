@@ -55,7 +55,7 @@ public class RankingActivity extends AppCompatActivity {
     }
     @SuppressLint("CheckResult")
     private void loadRankingData() {
-        PlayerResultDao dao = AppDatabase.getInstance(getApplicationContext()).playerResultDao();
+        PlayerResultDao dao = AppDatabase.Db.getInstance(getApplicationContext()).getDAO();
         dao.getRanking()
                 .subscribeOn(Schedulers.io()) // Ejecuta la consulta en el hilo IO
                 .observeOn(AndroidSchedulers.mainThread()) // Observa los resultados en el hilo principal

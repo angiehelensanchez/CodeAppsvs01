@@ -1,6 +1,7 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
     alias(libs.plugins.androidApplication)
-
 }
 
 android {
@@ -27,9 +28,10 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -41,17 +43,15 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
 
     // Dependencias de Room
     implementation(libs.room.runtime)
     implementation(libs.recyclerview)
     implementation(libs.room.rxjava)
-    
-
 
 
     // RxJava y RxAndroid
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
-
 }

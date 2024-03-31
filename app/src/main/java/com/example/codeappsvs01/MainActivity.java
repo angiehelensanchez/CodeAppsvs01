@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
         endGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PlayerResult newPlayerResult = new PlayerResult(playerName, mIntGanancias);
-                insertPlayerResultInDatabase(newPlayerResult);
+                playerResult = new PlayerResult(playerName, mIntGanancias);
+                insertPlayerResultInDatabase(playerResult);
             }
         });
 
@@ -120,11 +120,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });*/
+
     }
 
     private void ponerImagenes(){
@@ -200,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
         if ((mIntSlot1 == mIntSlot2) && (mIntSlot1 == mIntSlot3)) {
             // El jugador gana 100 monedas
-            mIntGanancias += 100;
+            mIntGanancias += 10;
             Snackbar.make(mRelative, "Has Ganado 100 euros", Snackbar.LENGTH_SHORT).show();
         } else if ((mIntSlot1 == mIntSlot2) || (mIntSlot1 == mIntSlot3) || (mIntSlot2 == mIntSlot3)) {
             // El jugador gana 5 monedas
@@ -211,31 +207,11 @@ public class MainActivity extends AppCompatActivity {
         coinAmountTextView.setText(getString(R.string.coin_amount, mIntGanancias));
     }
 
-    /* private void dineroAcumulado(){
-        if ((mIntSlot1 == mIntSlot2)&&(mIntSlot1 == mIntSlot3)){
-            Snackbar.make(mRelative, "Has Ganado 100 euros", Snackbar.LENGTH_SHORT).show();
-            mIntGanancias = mIntGanancias + 100;
-        }else if((mIntSlot1 == mIntSlot2)||(mIntSlot1 == mIntSlot3)|| (mIntSlot2 == mIntSlot3)){
-            Snackbar.make(mRelative, "Has Ganado 5 euros", Snackbar.LENGTH_SHORT).show();
-            mIntGanancias = mIntGanancias + 5;
-        }
 
-        // Actualizar mIntGanancias considerando el resultado y la apuesta
-        mIntGanancias = mIntGanancias -1;
-        mGanancias.setText(String.valueOf(mIntGanancias));*/
-
-        /*//Asegúrate de actualizar la UI con el nuevo saldo
-        mGanancias.setText(String.valueOf(mIntGanancias));
-        coinAmountTextView.setText(getString(R.string.coin_amount, mIntGanancias)); // Actualiza el TextView del saldo
-
-        // lógica aquí para manejar cuando el saldo es 0*/
-
-
-    // Método para insertar el resultado del jugador en la base de datos
     @SuppressLint("CheckResult")
     private void insertPlayerResultInDatabase(PlayerResult playerResult) {
-        AppDatabase db = AppDatabase.getInstance(getApplicationContext());
-        db.playerResultDao().insertResult(playerResult)
+        AppDatabase.Db db = AppDatabase.Db.getInstance(this);
+        db.getDAO().insertResult(playerResult)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
