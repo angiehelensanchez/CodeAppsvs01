@@ -25,29 +25,11 @@
         android:layout_below="@+id/playerNameTextView"
         android:layout_centerHorizontal="true"/>
 
-    <TextView
-        android:id="@+id/mainActivityTvGananciasAux"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ganancias: "
-        android:textSize="24sp"
-        android:layout_below="@+id/coinAmountTextView"
-        android:layout_centerHorizontal="true"/>
-
-    <TextView
-        android:id="@+id/mainActivityTvGanancias"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mainActivityTvGananciasAux"
-        android:layout_centerHorizontal="true"/>
-
     <LinearLayout
         android:id="@+id/mainActivityLl"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_below="@+id/mainActivityTvGanancias"
+        android:layout_below="@+id/coinAmountTextView"
         android:orientation="horizontal">
 
         <ImageView

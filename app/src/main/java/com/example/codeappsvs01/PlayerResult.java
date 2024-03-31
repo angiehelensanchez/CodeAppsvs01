@@ -16,12 +16,10 @@ public class PlayerResult {
     public int result;
 
     // Constructor
-    public PlayerResult(int id, String playerName, int result) {
-        this.id = id;
+    public PlayerResult(String playerName, int result) {
         this.playerName = playerName;
         this.result = result;
     }
-
     // Getters y setters
     public int getId() {
         return id;

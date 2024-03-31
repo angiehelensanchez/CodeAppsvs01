@@ -1,6 +1,7 @@
 package com.example.codeappsvs01;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.room.Database;
 import androidx.room.Room;
@@ -16,8 +17,9 @@ public abstract class AppDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
+                    Log.d("AppDatabase", "Creando nueva instancia de base de datos");
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    AppDatabase.class, "my_database_name")
+                                    AppDatabase.class, "CodeAPP")
                             .fallbackToDestructiveMigration()
                             .build();
                 }

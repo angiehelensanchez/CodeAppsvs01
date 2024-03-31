@@ -53,7 +53,6 @@ public class RankingActivity extends AppCompatActivity {
         // Llamar a loadRankingData() después de que el RecyclerView se haya inicializado
         loadRankingData();
     }
-
     @SuppressLint("CheckResult")
     private void loadRankingData() {
         PlayerResultDao dao = AppDatabase.getInstance(getApplicationContext()).playerResultDao();
@@ -74,8 +73,6 @@ public class RankingActivity extends AppCompatActivity {
                     Log.e("RankingActivity", "Error loading ranking data", error);
                 });
     }
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

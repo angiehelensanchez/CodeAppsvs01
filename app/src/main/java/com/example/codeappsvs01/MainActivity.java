@@ -1,15 +1,18 @@
 package com.example.codeappsvs01;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.room.Database;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,56 +20,73 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import java.util.Random;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mSlot1, mSlot2, mSlot3;
-    private TextView mGanancias;
+    private TextView mGanancias, coinAmountTextView;
     private Button mJugar;
     private RelativeLayout mRelative;
+    private String playerName;
 
     private Random mRandom;
     private int mIntSlot1, mIntSlot2, mIntSlot3, mIntGanancias;
+    public PlayerResult playerResult;
+
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        Log.d("MainActivity", "onCreate called");
         setContentView(R.layout.activity_main);
+        EdgeToEdge.enable(this);
 
         // Obtiene los datos pasados desde StartActivity
         Intent intent = getIntent();
-        String playerName = intent.getStringExtra("PLAYER_NAME");
+        playerName = intent.getStringExtra("PLAYER_NAME"); // Hazla una variable de clase
         int coinAmount = intent.getIntExtra("COIN_AMOUNT", 0);
 
-        // Crea una instancia de Player con los datos obtenidos
-        Player Player = new Player(playerName, coinAmount);
+        // AQUÍ se llama a getInstance() para asegurar la inicialización de la base de datos.
+        /*AppDatabase db = AppDatabase.getInstance(getApplicationContext());*/
 
-        // Encuentra TextViews en tu layout y actualízalos con los datos
+        // Inicializa TextViews con los datos
         TextView playerNameTextView = findViewById(R.id.playerNameTextView);
-        TextView coinAmountTextView = findViewById(R.id.coinAmountTextView);
+        coinAmountTextView = findViewById(R.id.coinAmountTextView); // Solo necesitas inicializarlo una vez
         playerNameTextView.setText(playerName);
         coinAmountTextView.setText(getString(R.string.coin_amount, coinAmount));
+
+        // Inicializa mIntGanancias con el valor de coinAmount
+        mIntGanancias = coinAmount; // Este es ahora tu saldo de monedas
 
         // Botón para finalizar la partida y mostrar el ranking
         Button endGameButton = findViewById(R.id.endGameButton);
         endGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, RankingActivity.class);
-                startActivity(intent);
+                PlayerResult newPlayerResult = new PlayerResult(playerName, mIntGanancias);
+                insertPlayerResultInDatabase(newPlayerResult);
             }
         });
 
-
+        // Inicialización de los ImageView para los slots
         mSlot1 = findViewById(R.id.mainActivitySlot1);
         mSlot2 = findViewById(R.id.mainActivitySlot2);
         mSlot3 = findViewById(R.id.mainActivitySlot3);
 
-        mGanancias=findViewById(R.id.mainActivityTvGanancias);
-        mJugar=findViewById(R.id.mainActivityBtJugar);
-        mRelative=findViewById(R.id.main);
+        /*mGanancias=findViewById(R.id.mainActivityTvGanancias);*/ //ya no vale
 
+        // Inicialización del botón para jugar
+        mJugar=findViewById(R.id.mainActivityBtJugar);
+        // Inicialización del RelativeLayout
+        mRelative=findViewById(R.id.main);
+        // Inicialización del objeto Random para los slots
         mRandom = new Random();
-        mIntGanancias = 5;
+        // Establece el saldo inicial del jugador basado en el valor pasado de StartActivity
+        mIntGanancias = coinAmount;
+
+        /*mIntGanancias = 5;*/ //Se elimina para que se actualice con la apuesta inciarl del jugador
         mJugar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,7 +194,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    private void dineroAcumulado(){
+    private void dineroAcumulado() {
+        // Asume que la apuesta es 1 moneda por juego
+        mIntGanancias -= 1; // Costo de jugar una partida
+
+        if ((mIntSlot1 == mIntSlot2) && (mIntSlot1 == mIntSlot3)) {
+            // El jugador gana 100 monedas
+            mIntGanancias += 100;
+            Snackbar.make(mRelative, "Has Ganado 100 euros", Snackbar.LENGTH_SHORT).show();
+        } else if ((mIntSlot1 == mIntSlot2) || (mIntSlot1 == mIntSlot3) || (mIntSlot2 == mIntSlot3)) {
+            // El jugador gana 5 monedas
+            mIntGanancias += 5;
+            Snackbar.make(mRelative, "Has Ganado 5 euros", Snackbar.LENGTH_SHORT).show();
+        }
+        // Actualizar la UI con el nuevo saldo
+        coinAmountTextView.setText(getString(R.string.coin_amount, mIntGanancias));
+    }
+
+    /* private void dineroAcumulado(){
         if ((mIntSlot1 == mIntSlot2)&&(mIntSlot1 == mIntSlot3)){
             Snackbar.make(mRelative, "Has Ganado 100 euros", Snackbar.LENGTH_SHORT).show();
             mIntGanancias = mIntGanancias + 100;
@@ -182,8 +219,33 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.make(mRelative, "Has Ganado 5 euros", Snackbar.LENGTH_SHORT).show();
             mIntGanancias = mIntGanancias + 5;
         }
+
+        // Actualizar mIntGanancias considerando el resultado y la apuesta
         mIntGanancias = mIntGanancias -1;
+        mGanancias.setText(String.valueOf(mIntGanancias));*/
+
+        /*//Asegúrate de actualizar la UI con el nuevo saldo
         mGanancias.setText(String.valueOf(mIntGanancias));
+        coinAmountTextView.setText(getString(R.string.coin_amount, mIntGanancias)); // Actualiza el TextView del saldo
+
+        // lógica aquí para manejar cuando el saldo es 0*/
+
+
+    // Método para insertar el resultado del jugador en la base de datos
+    @SuppressLint("CheckResult")
+    private void insertPlayerResultInDatabase(PlayerResult playerResult) {
+        AppDatabase db = AppDatabase.getInstance(getApplicationContext());
+        db.playerResultDao().insertResult(playerResult)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                    Log.d("MainActivity", "Resultado insertado correctamente.");
+                    Intent rankingIntent = new Intent(MainActivity.this, RankingActivity.class);
+                    startActivity(rankingIntent);
+                }, throwable -> {
+                    Log.e("MainActivity", "Error al insertar resultado", throwable);
+                });
     }
 }
+
 
