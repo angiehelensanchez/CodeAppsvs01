@@ -5,67 +5,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/machineslot"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/playerNameTextView"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre del Jugador"
-        android:textSize="18sp"
-        android:layout_marginTop="100dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="60dp"
+        android:text="Nombre Usuario"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/coinAmountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Monedas a Jugar"
-        android:textSize="18sp"
         android:layout_below="@+id/playerNameTextView"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginLeft="210dp"
+        android:layout_marginTop="-22dp"
+        android:text="Monedas a Jugar"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:id="@+id/mainActivityLl"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="194dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginLeft="47dp"
+        android:layout_marginRight="53dp"
         android:layout_below="@+id/coinAmountTextView"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/mainActivitySlot2"
-            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="0.75"
+            android:layout_width="0dp"/>
+
+        <View
+            android:layout_width="23dp"
+            android:layout_height="match_parent"/>
 
         <ImageView
             android:id="@+id/mainActivitySlot1"
-            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
-
+            android:layout_weight="0.82"
+            android:layout_width="0dp"/>
+        <View
+            android:layout_width="23dp"
+            android:layout_height="match_parent"/>
         <ImageView
             android:id="@+id/mainActivitySlot3"
-            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="0.82"
+            android:layout_width="0dp"/>
+
     </LinearLayout>
 
     <Button
         android:id="@+id/mainActivityBtJugar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="129dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/mainActivityLl"
-        android:layout_marginTop="78dp"
-        android:text="Jugar" />
+        android:layout_marginLeft="133dp"
+        android:layout_marginTop="95dp"
+        android:background="@android:color/transparent" />
 
     <Button
         android:id="@+id/endGameButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Finalizar Partida y Ver Ranking"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
         android:layout_below="@id/mainActivityBtJugar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="190dp"
+        android:background="@android:color/transparent"/>
+
 
 </RelativeLayout>
