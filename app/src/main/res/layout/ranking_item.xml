@@ -10,17 +10,25 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Player Name" />
+        android:text="Player Name"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/playerDateTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="90dp"
-        android:text="Date" />
+        android:layout_weight="1"
+        android:text="Date"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"/>
+
     <TextView
         android:id="@+id/playerResultTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Player Score" />
+        android:layout_weight="1"
+        android:text="Player Score"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"/>
 </LinearLayout>

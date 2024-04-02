@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <!-- Estilo personalizado para los botones -->
+    <style name="RedButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textSize">18sp</item> <!-- Tamaño de texto más grande -->
+        <item name="android:textColor">@android:color/white</item> <!-- Color del texto -->
+        <item name="android:background">@color/dark_red</item> <!-- Color de fondo -->
+    </style>
+
+</resources>
