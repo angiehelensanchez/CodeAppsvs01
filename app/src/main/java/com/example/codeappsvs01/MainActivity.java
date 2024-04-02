@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         mJugar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Has lanzado: -1 euro", Toast.LENGTH_SHORT).show();
 
                 mSlot1.setImageResource(R.drawable.animation);
                 final AnimationDrawable slot1Anim = (AnimationDrawable) mSlot1.getDrawable();
@@ -105,12 +104,18 @@ public class MainActivity extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        slot1Anim.stop();
-                        slot2Anim.stop();
-                        slot3Anim.stop();
+                        if(mIntGanancias >0){
+                            slot1Anim.stop();
+                            slot2Anim.stop();
+                            slot3Anim.stop();
 
-                        ponerImagenes();
-                        dineroAcumulado();
+                            ponerImagenes();
+                            dineroAcumulado();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Sin saldo", Toast.LENGTH_SHORT).show();
+
+                        }
+
                     }
                 }, 1000);
 
@@ -190,11 +195,10 @@ public class MainActivity extends AppCompatActivity {
     private void dineroAcumulado() {
         // Asume que la apuesta es 1 moneda por juego
         mIntGanancias -= 1; // Costo de jugar una partida
-
+        Toast.makeText(getApplicationContext(),"Has lanzado: -1 euro", Toast.LENGTH_SHORT).show();
         if ((mIntSlot1 == mIntSlot2) && (mIntSlot1 == mIntSlot3)) {
-            // El jugador gana 100 monedas
             mIntGanancias += 10;
-            Snackbar.make(mRelative, "Has Ganado 100 euros", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(mRelative, "Has Ganado 10 euros", Snackbar.LENGTH_SHORT).show();
         } else if ((mIntSlot1 == mIntSlot2) || (mIntSlot1 == mIntSlot3) || (mIntSlot2 == mIntSlot3)) {
             // El jugador gana 5 monedas
             mIntGanancias += 5;
