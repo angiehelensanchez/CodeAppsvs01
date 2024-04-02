@@ -13,7 +13,7 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start); // Asegúrate de tener un layout `activity_start.xml`
+        setContentView(R.layout.activity_start);
 
         final EditText playerNameEditText = findViewById(R.id.playerName);
         final EditText coinAmountEditText = findViewById(R.id.coinAmount);

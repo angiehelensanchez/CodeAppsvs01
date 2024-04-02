@@ -42,7 +42,7 @@ public class RankingActivity extends AppCompatActivity {
         playAgainButton.setOnClickListener(v -> {
             Intent intent = new Intent(RankingActivity.this, MainActivity.class);
             startActivity(intent);
-            finish(); // Finaliza RankingActivity para no volver a ella al presionar "atrás".
+            finish();
         });
 
         exitButton = findViewById(R.id.exitButton);

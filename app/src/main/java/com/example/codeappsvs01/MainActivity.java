@@ -26,7 +26,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mSlot1, mSlot2, mSlot3;
-    private TextView mGanancias, coinAmountTextView;
+    private TextView  coinAmountTextView;
     private Button mJugar;
     private RelativeLayout mRelative;
     private String playerName;
@@ -43,22 +43,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         EdgeToEdge.enable(this);
 
-        // Obtiene los datos pasados desde StartActivity
+
         Intent intent = getIntent();
-        playerName = intent.getStringExtra("PLAYER_NAME"); // Hazla una variable de clase
+        playerName = intent.getStringExtra("PLAYER_NAME");
         int coinAmount = intent.getIntExtra("COIN_AMOUNT", 0);
 
-        // AQUÍ se llama a getInstance() para asegurar la inicialización de la base de datos.
-        /*AppDatabase db = AppDatabase.getInstance(getApplicationContext());*/
 
-        // Inicializa TextViews con los datos
         TextView playerNameTextView = findViewById(R.id.playerNameTextView);
-        coinAmountTextView = findViewById(R.id.coinAmountTextView); // Solo necesitas inicializarlo una vez
+        coinAmountTextView = findViewById(R.id.coinAmountTextView);
         playerNameTextView.setText(playerName);
         coinAmountTextView.setText(getString(R.string.coin_amount, coinAmount));
 
         // Inicializa mIntGanancias con el valor de coinAmount
-        mIntGanancias = coinAmount; // Este es ahora tu saldo de monedas
+        mIntGanancias = coinAmount;
 
         // Botón para finalizar la partida y mostrar el ranking
         Button endGameButton = findViewById(R.id.endGameButton);

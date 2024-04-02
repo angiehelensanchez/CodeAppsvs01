@@ -19,7 +19,6 @@ public class EmptyAdapter extends RecyclerView.Adapter<EmptyAdapter.EmptyViewHol
 
     @Override
     public void onBindViewHolder(@NonNull EmptyViewHolder holder, int position) {
-        // No se necesita ninguna operación aquí, ya que el adaptador solo muestra un elemento estático
     }
 
     @Override

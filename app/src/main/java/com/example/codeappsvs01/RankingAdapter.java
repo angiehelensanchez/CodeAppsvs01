@@ -27,6 +27,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingV
     public void onBindViewHolder(RankingViewHolder holder, int position) {
         PlayerResult result = rankingList.get(position);
         holder.playerNameTextView.setText(result.getPlayerName());
+        holder.playerDateTextView.setText(String.valueOf(result.getDate()));
         holder.playerResultTextView.setText(String.valueOf(result.getResult()));
     }
 
@@ -38,10 +39,12 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingV
     static class RankingViewHolder extends RecyclerView.ViewHolder {
         TextView playerNameTextView;
         TextView playerResultTextView;
+        TextView playerDateTextView;
 
         RankingViewHolder(View itemView) {
             super(itemView);
             playerNameTextView = itemView.findViewById(R.id.playerNameTextView);
+            playerDateTextView = itemView.findViewById(R.id.playerDateTextView);
             playerResultTextView = itemView.findViewById(R.id.playerResultTextView);
         }
     }

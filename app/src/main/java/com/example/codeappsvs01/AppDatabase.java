@@ -35,14 +35,4 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     }
 
-    /*public static synchronized AppDatabase getInstance(Context context) {
-        if (INSTANCE == null) {
-            Log.d("AppDatabase", "Creando nueva instancia de base de datos");
-            INSTANCE = Room.databaseBuilder(context,
-                            AppDatabase.class, "CodeAPP.db")
-                    .fallbackToDestructiveMigration()
-                    .build();
-        }
-        return INSTANCE;
-    }*/
 }
