@@ -22,9 +22,26 @@
         android:text="Play Again" />
 
     <Button
+        android:id="@+id/screenshotButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Capturar pantalla"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/saveScoreButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar puntuación"
+        android:layout_marginTop="8dp" />
+
+    <Button
         android:id="@+id/exitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Exit" />
+        android:text="Exit"
+        android:layout_marginTop="8dp" />
+
+
 
 </LinearLayout>
