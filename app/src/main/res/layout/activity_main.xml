@@ -66,33 +66,22 @@
 
     <Button
         android:id="@+id/mainActivityBtJugar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="472dp"
-        android:text="Jugar"
-        android:textSize="30sp"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-    />
+        android:layout_width="129dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/mainActivityLl"
+        android:layout_marginLeft="133dp"
+        android:layout_marginTop="95dp"
+        android:text="Jugar"/>
 
     <Button
         android:id="@+id/endGameButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
         android:layout_below="@id/mainActivityBtJugar"
-        android:layout_marginTop="157dp"
+        android:layout_centerHorizontal="true"
         android:text="Finalizar y ver ranking"
-        android:textSize="25sp"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-    />
-
+        android:layout_marginTop="180dp"
+        />
 
 
 </RelativeLayout>

@@ -7,8 +7,4 @@
     <string name="start_game">Iniciar</string>
     <string name="coin_amount">%1$d</string>
 
-    <string name="welcome_image_desc">Descripción de la imagen de bienvenida</string>
-
-
-
 </resources>
