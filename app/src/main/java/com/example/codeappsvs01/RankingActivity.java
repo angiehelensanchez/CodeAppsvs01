@@ -160,4 +160,3 @@ public class RankingActivity extends AppCompatActivity {
         executor.shutdown(); // Asegura que el ExecutorService se detenga al cerrar la actividad.
     }
 }
-

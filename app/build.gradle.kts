@@ -54,4 +54,8 @@ dependencies {
     // RxJava y RxAndroid
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
+
+    // Dependencia para Android-GIF-Drawable
+    implementation(libs.androidgifdrawable)
+
 }
