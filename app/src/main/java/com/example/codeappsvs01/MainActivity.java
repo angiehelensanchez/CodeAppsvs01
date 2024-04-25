@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public PlayerResult playerResult;
     private MediaPlayer mediaPlayer;
 
+
     @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         playerName = intent.getStringExtra("PLAYER_NAME");
         int coinAmount = intent.getIntExtra("COIN_AMOUNT", 0);
+//+***************************************************************************************
+        MediaPlayer botonSound = MediaPlayer.create(this, R.raw.pulsar_boton);
+//+***************************************************************************************
 
         TextView playerNameTextView = findViewById(R.id.playerNameTextView);
         coinAmountTextView = findViewById(R.id.coinAmountTextView);
@@ -54,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         // Botón para finalizar la partida y mostrar el ranking
         Button endGameButton = findViewById(R.id.endGameButton);
         endGameButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 playerResult = new PlayerResult(playerName, mIntGanancias);
@@ -75,11 +80,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Inicializar el reproductor de música para la ruleta
         mediaPlayer = MediaPlayer.create(this, R.raw.ruleta);
-
         mJugar=findViewById(R.id.mainActivityBtJugar);
         mJugar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        @Override
+        public void onClick(View v) {
+///*********************************************************************************************
+            botonSound.seekTo(0); // Reinicia el sonido
+            botonSound.start(); // Reproduce el sonido
+///*********************************************************************************************
+
                 // Reproducir el sonido de la ruleta cuando se inicia la animación de las imágenes
                 mediaPlayer.start();
 
@@ -226,13 +235,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
+
+
+   @Override
     protected void onDestroy() {
-        super.onDestroy();
+       super.onDestroy();
         // Liberar recursos del reproductor de música
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
+       if (mediaPlayer != null) {
+           mediaPlayer.release();
+           mediaPlayer = null;
         }
-    }
+   }
 }

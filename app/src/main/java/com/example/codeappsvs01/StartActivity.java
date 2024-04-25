@@ -18,6 +18,11 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+//+***************************************************************************************
+        MediaPlayer botonSound = MediaPlayer.create(this, R.raw.pulsar_boton);
+//+***************************************************************************************
+
+
         // Inicializar el reproductor de música
         mediaPlayer = MediaPlayer.create(this, R.raw.melodia_fondo);
         mediaPlayer.setLooping(true);
@@ -33,6 +38,9 @@ public class StartActivity extends AppCompatActivity {
         startGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //***********************************************************
+                botonSound.start(); // Reproduce el sonido al hacer clic en el botón
+                //***********************************************************
                 String playerName = playerNameEditText.getText().toString();
                 int coinAmount;
                 try {
@@ -53,6 +61,9 @@ public class StartActivity extends AppCompatActivity {
         musicToggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //***********************************************************
+                botonSound.start(); // Reproduce el sonido al hacer clic en el botón
+                //***********************************************************
                 if (isMusicPlaying) {
                     // Pausar la música si está reproduciéndose
                     mediaPlayer.pause();
