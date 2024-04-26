@@ -57,5 +57,7 @@ dependencies {
 
     // Dependencia para Android-GIF-Drawable
     implementation(libs.androidgifdrawable)
+    implementation(libs.glide)
+
 
 }

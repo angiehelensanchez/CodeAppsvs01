@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.CalendarContract;
@@ -21,12 +20,12 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -46,6 +45,10 @@ public class RankingActivity extends AppCompatActivity {
     private RankingAdapter rankingAdapter;
     private ExecutorService executor = Executors.newSingleThreadExecutor();
     private Handler handler = new Handler(Looper.getMainLooper());
+    private static final int REQUEST_CODE_SELECT_DIRECTORY = 1;
+    private Bitmap bitmap;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +71,13 @@ public class RankingActivity extends AppCompatActivity {
             finishAffinity(); // Cierra la aplicación completamente.
         });
 
-        captureButton = findViewById(R.id.screenshotButton);
-        captureButton.setOnClickListener(v -> captureAndSaveScreen());
+        Button captureButton = findViewById(R.id.screenshotButton);
+        captureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                captureAndSaveScreen();
+            }
+        });
 
         saveCalendarButton = findViewById(R.id.saveScoreButton);
         saveCalendarButton.setOnClickListener(v -> {
@@ -107,20 +115,40 @@ public class RankingActivity extends AppCompatActivity {
         // Obtener la vista raíz de la actividad
         View rootView = getWindow().getDecorView().getRootView();
         rootView.setDrawingCacheEnabled(true);
-        Bitmap bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
+        bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
         rootView.setDrawingCacheEnabled(false);
 
-        // Guardar la captura en el almacenamiento externo
-        String filename = "screenshot_" + System.currentTimeMillis() + ".png";
-        File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File screenshotFile = new File(directory, filename);
+        // Crear un Intent para abrir un selector de directorios
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        startActivityForResult(intent, REQUEST_CODE_SELECT_DIRECTORY);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SELECT_DIRECTORY && resultCode == RESULT_OK) {
+            // Obtener la URI del directorio seleccionado por el usuario
+            Uri treeUri = data.getData();
+
+            // Guardar la captura en el directorio seleccionado por el usuario
+            saveBitmapToDirectory(treeUri);
+        }
+    }
+
+    private void saveBitmapToDirectory(Uri directoryUri) {
         try {
-            FileOutputStream outputStream = new FileOutputStream(screenshotFile);
+            // Obtener el nombre de archivo y el directorio de almacenamiento externo
+            String filename = "screenshot_" + System.currentTimeMillis() + ".png";
+            DocumentFile directory = DocumentFile.fromTreeUri(this, directoryUri);
+            DocumentFile file = directory.createFile("image/png", filename);
+
+            // Escribir el bitmap en el archivo
+            OutputStream outputStream = getContentResolver().openOutputStream(file.getUri());
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
             outputStream.close();
 
-            MediaScannerConnection.scanFile(this, new String[]{screenshotFile.toString()}, null, null);
+            // Escanear el archivo para que esté disponible en la galería
+            MediaScannerConnection.scanFile(this, new String[]{file.getUri().toString()}, null, null);
 
             Toast.makeText(this, "Captura de pantalla guardada", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
@@ -128,6 +156,7 @@ public class RankingActivity extends AppCompatActivity {
             Toast.makeText(this, "Error al guardar la captura de pantalla", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void saveScoreToCalendar() {
         ContentValues values = new ContentValues();

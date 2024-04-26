@@ -10,6 +10,10 @@
     <string name="welcome_image_desc">Descripción de la imagen de bienvenida</string>
     <string name="background_image_description">Fondo animado</string>
 
+    <string name="music_off">Música OFF</string>
+    <string name="music_on">Música ON</string>
+
+
 
 
 
