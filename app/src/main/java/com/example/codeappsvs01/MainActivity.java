@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -37,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     public PlayerResult playerResult;
 
     private MediaPlayer mediaPlayer;
-
+    private WebView webView;
+    private Button toggleWebViewButton;
     @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,20 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "onCreate called");
         setContentView(R.layout.activity_main);
         EdgeToEdge.enable(this);
+        webView = findViewById(R.id.webView);
+        webView.getSettings().setJavaScriptEnabled(true);
+        toggleWebViewButton = findViewById(R.id.button);
+        toggleWebViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webView.getVisibility() == View.VISIBLE) {
+                    webView.setVisibility(View.GONE);
+                } else {
+                    webView.setVisibility(View.VISIBLE);
+                    loadWebView();
+                }
+            }
+        });
 
         Intent intent = getIntent();
         playerName = intent.getStringExtra("PLAYER_NAME");
@@ -110,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                             ponerImagenes();
                             dineroAcumulado();
                         } else {
-                            Toast.makeText(getApplicationContext(), "Sin saldo", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.without_coins, Toast.LENGTH_SHORT).show();
                         }
 
                         mediaPlayer.pause();
@@ -219,14 +235,14 @@ public class MainActivity extends AppCompatActivity {
     private void dineroAcumulado() {
         // Asume que la apuesta es 1 moneda por juego
         mIntGanancias -= 1; // Costo de jugar una partida
-        Toast.makeText(getApplicationContext(),"Has lanzado: -1 euro", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.has_lanzado_1_euro, Toast.LENGTH_SHORT).show();
         if ((mIntSlot1 == mIntSlot2) && (mIntSlot1 == mIntSlot3)) {
             mIntGanancias += 10;
-            Snackbar.make(mRelative, "Has Ganado 10 euros", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(mRelative, R.string.has_ganado_10_euros, Snackbar.LENGTH_SHORT).show();
         } else if ((mIntSlot1 == mIntSlot2) || (mIntSlot1 == mIntSlot3) || (mIntSlot2 == mIntSlot3)) {
             // El jugador gana 5 monedas
             mIntGanancias += 5;
-            Snackbar.make(mRelative, "Has Ganado 5 euros", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(mRelative, R.string.has_ganado_5_euros, Snackbar.LENGTH_SHORT).show();
         }
         // Actualizar la UI con el nuevo saldo
         coinAmountTextView.setText(getString(R.string.coin_amount, mIntGanancias));
@@ -255,5 +271,9 @@ public class MainActivity extends AppCompatActivity {
                 mediaPlayer.release();
                 mediaPlayer = null;
             }
+    }
+    private void loadWebView() {
+        // Carga el archivo HTML en el WebView
+        webView.loadUrl("file:///android_asset/guia.html");
     }
 }

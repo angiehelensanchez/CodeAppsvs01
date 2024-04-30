@@ -1,30 +1,107 @@
 package com.example.codeappsvs01;
 
+import android.annotation.SuppressLint;
+
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+
+import java.util.Locale;
+
 import java.io.IOException;
 import java.io.InputStream;
+import android.Manifest;
+import android.content.pm.PackageManager;
+
 import pl.droidsonroids.gif.GifDrawable;
 
 public class StartActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SELECT_MUSIC = 100;
     private MediaPlayer mediaPlayer;
     private boolean isMusicPlaying = false;
-
+    public String lenguage = "Español";
+    Spinner spinner;
+    public static final String[] Languages = {"Select Language", "English","Spain", "中文"};
+    private WebView webView;
+    private Button toggleWebViewButton;
+    private static final int PERMISSION_REQUEST_CODE = 1;
+    private LocationDataBase dbLocalitation;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            obtenerYGuardarUbicacion();
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
+        }
 
+
+        webView = findViewById(R.id.webView2);
+        webView.getSettings().setJavaScriptEnabled(true);
+        toggleWebViewButton = findViewById(R.id.button2);
+        toggleWebViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webView.getVisibility() == View.VISIBLE) {
+                    webView.setVisibility(View.GONE);
+                } else {
+                    webView.setVisibility(View.VISIBLE);
+                    loadWebView();
+                }
+            }
+        });
+        spinner = findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Languages);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(0);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("UnsafeIntentLaunch")
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedLang = parent.getItemAtPosition(position).toString();
+                if (selectedLang.equals("English")) {
+                    setLocale("en");
+                } else if (selectedLang.equals("Spain")) {
+                    setLocale("es");
+                } else if ((selectedLang.equals("中文"))) {
+                    setLocale("zh");
+                }
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         final ImageView backgroundImageView = findViewById(R.id.backgroundImageView);
 
         try {
@@ -52,7 +129,8 @@ public class StartActivity extends AppCompatActivity {
         final EditText playerNameEditText = findViewById(R.id.playerName);
         final EditText coinAmountEditText = findViewById(R.id.coinAmount);
         Button startGameButton = findViewById(R.id.startGameButton);
-        Button musicToggleButton = findViewById(R.id.musicToggleButton); // Botón para activar/desactivar la música
+        Button musicToggleButton = findViewById(R.id.musicToggleButton);
+        musicToggleButton.setText(R.string.music_button_controller);// Botón para activar/desactivar la música
 
         startGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,6 +249,46 @@ public class StartActivity extends AppCompatActivity {
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
+        }
+    }
+    public void setLocale(String languageCode) {
+        Locale myLocale = new Locale(languageCode);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        Intent refresh = new Intent(this, StartActivity.class);
+        finish();
+        startActivity(refresh);
+    }
+    private void loadWebView() {
+        // Carga el archivo HTML en el WebView
+        webView.loadUrl("file:///android_asset/guia.html");
+    }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                obtenerYGuardarUbicacion();
+            } else {
+                Toast.makeText(this, "La funcionalidad de ubicación está limitada porque no se concedieron permisos", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void obtenerYGuardarUbicacion() {
+        // Obtener la ubicación del jugador
+        // Aquí deberías implementar la lógica para obtener la ubicación del jugador
+
+        // Supongamos que has obtenido la ubicación y la has almacenado en un objeto Location llamado "ubicacion"
+        Location ubicacion = null; // Aquí debes asignar la ubicación obtenida
+
+        // Insertar la ubicación en la base de datos
+        if (ubicacion != null) {
+            SQLiteDatabase db = dbLocalitation.getWritableDatabase();
+            dbLocalitation.insertarUbicacion(db, ubicacion.getLatitude(), ubicacion.getLongitude());
+            db.close();
         }
     }
 }

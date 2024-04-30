@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CodeApps</string>
+    <string name="player_name_hint">名字</string>
+    <string name="insert_coin">插入摩德纳斯</string>
+    <string name="coin_amount_hint">初始赌注</string>
+    <string name="start_game">开始</string>
+    <string name="music_off">音乐关闭</string>
+    <string name="music_on">音乐</string>
+    <string name="finish_ranking">最终确定并查看排名</string>
+    <string name="start_play">游戏</string>
+    <string name="coins_play">硬币</string>
+    <string name="username">用户 ID</string>
+    <string name="without_coins">无余额</string>
+    <string name="player_name_ranking">玩家</string>
+    <string name="date_play_ranking">日期</string>
+    <string name="coins_ranking">硬币</string>
+    <string name="play_again_ranking">再次播放</string>
+    <string name="capturar_pantalla">屏幕截图</string>
+    <string name="savepoint_ranking">保存分数</string>
+    <string name="exit">退出</string>
+    <string name="music_button_controller">音乐</string>
+    <string name="music_button_change">选择音乐</string>
+    <string name="languagechoose">选择语言</string>
+    <string name="has_lanzado_1_euro">您已发射： -1欧元</string>
+    <string name="has_ganado_10_euros">您赢了 10 欧元</string>
+    <string name="has_ganado_5_euros">您赢了 5 欧元</string>
+</resources>

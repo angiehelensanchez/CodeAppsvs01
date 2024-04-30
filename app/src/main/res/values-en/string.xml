@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CodeApps</string>
+    <string name="player_name_hint">Name</string>
+    <string name="insert_coin">Insert Coins</string>
+    <string name="coin_amount_hint">Initial Bet</string>
+    <string name="start_game">Start</string>
+    <string name="music_off">Music Off</string>
+    <string name="music_on">Music On</string>
+    <string name="finish_ranking">End and see ranking</string>
+    <string name="start_play">Play</string>
+    <string name="coins_play">Coints to play</string>
+    <string name="username">Username</string>
+    <string name="without_coins">No more coins</string>
+    <string name="player_name_ranking">Player</string>
+    <string name="date_play_ranking">Date</string>
+    <string name="coins_ranking">Coins</string>
+    <string name="play_again_ranking">Play Again</string>
+    <string name="capturar_pantalla">Screenshot</string>
+    <string name="savepoint_ranking">Save score</string>
+    <string name="exit">Exit</string>
+    <string name="music_button_controller">Music</string>
+    <string name="music_button_change">Select music</string>
+    <string name="languagechoose">Choose Lenguage</string>
+    <string name="has_lanzado_1_euro">You have released: -1 euro</string>
+    <string name="has_ganado_10_euros">You have won 10 euros</string>
+    <string name="has_ganado_5_euros">You have won 5 euros</string>
+</resources>

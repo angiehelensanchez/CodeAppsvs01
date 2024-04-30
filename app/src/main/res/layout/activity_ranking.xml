@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Player"
+            android:text="@string/player_name_ranking"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
@@ -35,7 +35,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Date"
+            android:text="@string/date_play_ranking"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Coins"
+            android:text="@string/coins_ranking"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
@@ -62,29 +62,28 @@
         android:id="@+id/playAgainButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Play Again" />
+        android:text="@string/play_again_ranking" />
 
     <Button
         android:id="@+id/screenshotButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Capturar pantalla"
+        android:text="@string/capturar_pantalla"
         android:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/saveScoreButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar puntuación"
+        android:text="@string/savepoint_ranking"
         android:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/exitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Exit"
+        android:text="@string/exit"
         android:layout_marginTop="8dp" />
-
 
 
 </LinearLayout>
