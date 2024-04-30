@@ -3,45 +3,87 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@drawable/bienvenido"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".RankingActivity">
+        tools:context=".RankingActivity">
+
+
+    <!-- Encabezados para las columnas -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/player_name_ranking"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/date_play_ranking"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/coins_ranking"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rankingRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:layout_marginTop="2dp"
         tools:listitem="@layout/ranking_item" />
 
     <Button
         android:id="@+id/playAgainButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Play Again" />
+        android:text="@string/play_again_ranking" />
 
     <Button
         android:id="@+id/screenshotButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Capturar pantalla"
+        android:text="@string/capturar_pantalla"
         android:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/saveScoreButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar puntuación"
+        android:text="@string/savepoint_ranking"
         android:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/exitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Exit"
+        android:text="@string/exit"
         android:layout_marginTop="8dp" />
-
 
 
 </LinearLayout>
