@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "163831715992",
+    "project_id": "codeapps-65dd8",
+    "storage_bucket": "codeapps-65dd8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163831715992:android:d9052154e8d1043f5998ed",
+        "android_client_info": {
+          "package_name": "com.example.codeappsvs01"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD56u6Adg0HTD3vydpykPTLfyJlDipbERA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
