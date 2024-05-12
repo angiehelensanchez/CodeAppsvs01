@@ -74,10 +74,7 @@ public class MainActivity extends AppCompatActivity {
         playerNameTextView.setText(playerName);
         coinAmountTextView.setText(getString(R.string.coin_amount, coinAmount));
 
-        // Inicializa mIntGanancias con el valor de coinAmount
         mIntGanancias = coinAmount;
-
-        // Botón para finalizar la partida y mostrar el ranking
         Button endGameButton = findViewById(R.id.endGameButton);
         endGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,39 +83,26 @@ public class MainActivity extends AppCompatActivity {
                 insertPlayerResultInDatabase(playerResult);
             }
         });
-        // Inicialización de los ImageView para los slots
         mSlot1 = findViewById(R.id.mainActivitySlot1);
         mSlot2 = findViewById(R.id.mainActivitySlot2);
         mSlot3 = findViewById(R.id.mainActivitySlot3);
 
-        // Inicialización del botón para jugar
         mJugar=findViewById(R.id.mainActivityBtJugar);
-        // Inicialización del RelativeLayout
         mRelative=findViewById(R.id.main);
-        // Inicialización del objeto Random para los slots
         mRandom = new Random();
-        // Establece el saldo inicial del jugador basado en el valor pasado de StartActivity
         mIntGanancias = coinAmount;
 
-        // Inicializar MediaPlayer para el sonido de la ruleta
         mediaPlayer = MediaPlayer.create(this, R.raw.ruleta);
 
-        /*mJugar=findViewById(R.id.mainActivityBtJugar);*/
         mJugar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // Iniciar la animación de las imágenes de los slots
                 startSlotAnimation();
-                // Reproducir el sonido de la ruleta cuando se inicia la animación de las imágenes
                 mediaPlayer.start();
-                // Reiniciar y reproducir el sonido del botón
-                botonSound.seekTo(0); // Reinicia el sonido
-                botonSound.start(); // Reproduce el sonido
-
-                // Retrasar la ejecución del código después de un segundo
+                botonSound.seekTo(0);
+                botonSound.start();
                 new Handler().postDelayed(new Runnable() {
-                    // Detener la música cuando finaliza la animación de las imágenes
                     @Override
                     public void run() {
                         if (mIntGanancias > 0) {
@@ -138,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void startSlotAnimation() {
-        // Iniciar la animación de las imágenes de los slots
         mSlot1.setImageResource(R.drawable.animation);
         final AnimationDrawable slot1Anim = (AnimationDrawable) mSlot1.getDrawable();
         slot1Anim.start();
@@ -233,18 +216,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void dineroAcumulado() {
-        // Asume que la apuesta es 1 moneda por juego
-        mIntGanancias -= 1; // Costo de jugar una partida
+        mIntGanancias -= 1;
         Toast.makeText(getApplicationContext(), R.string.has_lanzado_1_euro, Toast.LENGTH_SHORT).show();
         if ((mIntSlot1 == mIntSlot2) && (mIntSlot1 == mIntSlot3)) {
             mIntGanancias += 10;
             Snackbar.make(mRelative, R.string.has_ganado_10_euros, Snackbar.LENGTH_SHORT).show();
         } else if ((mIntSlot1 == mIntSlot2) || (mIntSlot1 == mIntSlot3) || (mIntSlot2 == mIntSlot3)) {
-            // El jugador gana 5 monedas
             mIntGanancias += 5;
             Snackbar.make(mRelative, R.string.has_ganado_5_euros, Snackbar.LENGTH_SHORT).show();
         }
-        // Actualizar la UI con el nuevo saldo
+
         coinAmountTextView.setText(getString(R.string.coin_amount, mIntGanancias));
     }
 
@@ -273,7 +254,6 @@ public class MainActivity extends AppCompatActivity {
             }
     }
     private void loadWebView() {
-        // Carga el archivo HTML en el WebView
         webView.loadUrl("file:///android_asset/guia.html");
     }
 }
