@@ -28,6 +28,7 @@
     <string name="has_lanzado_1_euro">Has lanzado: -1 euro</string>
     <string name="has_ganado_10_euros">Has Ganado 10 euros</string>
     <string name="has_ganado_5_euros">Has Ganado 5 euros</string>
+    <string name="default_web_client_id">project-163831715992</string>
 
 
 </resources>

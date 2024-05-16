@@ -29,6 +29,8 @@ import java.io.OutputStream;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.List;
+
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -93,23 +95,26 @@ public class RankingActivity extends AppCompatActivity {
     }
     @SuppressLint("CheckResult")
     private void loadRankingData() {
-        PlayerResultDao dao = AppDatabase.Db.getInstance(getApplicationContext()).getDAO();
-        dao.getRanking()
-                .subscribeOn(Schedulers.io()) // Ejecuta la consulta en el hilo IO
-                .observeOn(AndroidSchedulers.mainThread()) // Observa los resultados en el hilo principal
-                .subscribe(results -> {
-                    if (results.isEmpty()) {
-                        // Configurar RecyclerView con el adaptador de respaldo EmptyAdapter
-                        rankingRecyclerView.setAdapter(new EmptyAdapter());
-                    } else {
-                        // Si hay resultados, actualiza la interfaz de usuario con los resultados
-                        rankingAdapter = new RankingAdapter(results);
-                        rankingRecyclerView.setAdapter(rankingAdapter);
-                    }
-                }, error -> {
-                    // Maneja posibles errores aquí
-                    Log.e("RankingActivity", "Error loading ranking data", error);
-                });
+        FirebaseDatabaseHelper dbHelper = FirebaseDatabaseHelper.getInstance();
+        dbHelper.getAllPlayerResults(new FirebaseDatabaseHelper.OnResultsListener<PlayerResult>() {
+            @Override
+            public void onSuccess(List<PlayerResult> results) {
+                if (results.isEmpty()) {
+                    // Configurar RecyclerView con el adaptador de respaldo EmptyAdapter
+                    rankingRecyclerView.setAdapter(new EmptyAdapter());
+                } else {
+                    // Si hay resultados, actualiza la interfaz de usuario con los resultados
+                    rankingAdapter = new RankingAdapter(results);
+                    rankingRecyclerView.setAdapter(rankingAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                // Maneja posibles errores aquí
+                Log.e("RankingActivity", "Error loading ranking data", e);
+            }
+        });
     }
     private void captureAndSaveScreen() {
         // Obtener la vista raíz de la actividad

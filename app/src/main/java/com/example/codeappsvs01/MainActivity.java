@@ -231,17 +231,11 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("CheckResult")
     private void insertPlayerResultInDatabase(PlayerResult playerResult) {
-        AppDatabase.Db db = AppDatabase.Db.getInstance(this);
-        db.getDAO().insertResult(playerResult)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> {
-                    Log.d("MainActivity", "Resultado insertado correctamente.");
-                    Intent rankingIntent = new Intent(MainActivity.this, RankingActivity.class);
-                    startActivity(rankingIntent);
-                }, throwable -> {
-                    Log.e("MainActivity", "Error al insertar resultado", throwable);
-                });
+        FirebaseDatabaseHelper dbHelper = FirebaseDatabaseHelper.getInstance();
+        dbHelper.addPlayerResult(playerResult);
+        Log.d("MainActivity", "Resultado insertado correctamente.");
+        Intent rankingIntent = new Intent(MainActivity.this, RankingActivity.class);
+        startActivity(rankingIntent);
     }
 
         @Override

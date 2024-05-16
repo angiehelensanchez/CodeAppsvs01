@@ -1,5 +1,5 @@
 package com.example.codeappsvs01;
-import android.content.ContentValues;
+/*import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -38,3 +38,5 @@ public class LocationDataBase  extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, values);
     }
 }
+
+ */

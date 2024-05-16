@@ -1,24 +1,16 @@
 package com.example.codeappsvs01;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Entity
 public class PlayerResult {
-    @PrimaryKey(autoGenerate = true)
-    public int id;
+    private int id;
+    private String playerName;
+    private int result;
+    private String date;
 
-    @ColumnInfo(name = "player_name")
-    public String playerName;
-
-    @ColumnInfo(name = "result")
-    public int result;
-    @ColumnInfo(name = "date")
-    public String date;
+    // Constructor vacío requerido para Firestore
+    public PlayerResult() {}
 
     // Constructor
     public PlayerResult(String playerName, int result) {
@@ -28,16 +20,16 @@ public class PlayerResult {
     }
 
     // Getters y setters
-    public String toDate(){
+    public String toDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
-        String fechaComoCadena = sdf.format(new Date());
-        return fechaComoCadena;
+        return sdf.format(new Date());
     }
+
     public String getDate() {
         return date;
     }
 
-    public void String(String date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

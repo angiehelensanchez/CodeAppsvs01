@@ -1,5 +1,5 @@
 package com.example.codeappsvs01;
-import android.provider.BaseColumns;
+/*import android.provider.BaseColumns;
 public class LocationContract {
     private LocationContract() {}
 
@@ -11,3 +11,5 @@ public class LocationContract {
     }
 
 }
+
+ */

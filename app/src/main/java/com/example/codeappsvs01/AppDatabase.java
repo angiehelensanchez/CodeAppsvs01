@@ -1,5 +1,5 @@
 package com.example.codeappsvs01;
-
+/*
 import android.content.Context;
 
 import androidx.room.Database;
@@ -32,3 +32,5 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
 }
+
+ */

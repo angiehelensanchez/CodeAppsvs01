@@ -1,4 +1,5 @@
 package com.example.codeappsvs01;
+/*
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,3 +26,5 @@ public class LocationDatas {
         database.insert(LocationContract.LocationEntry.TABLE_NAME, null, values);
     }
 }
+
+ */
