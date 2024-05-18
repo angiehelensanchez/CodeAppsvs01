@@ -2,7 +2,7 @@
     <string name="app_name">CodeApps</string>
 
     <string name="player_name_hint">Nombre</string>
-    <string name="insert_coin">Insertar Modenas</string>
+    <string name="insert_coin">Insertar Monedas</string>
     <string name="coin_amount_hint">Apuesta inicial</string>
     <string name="start_game">Iniciar</string>
     <string name="coin_amount" translatable="false">%1$d</string>
@@ -28,7 +28,7 @@
     <string name="has_lanzado_1_euro">Has lanzado: -1 euro</string>
     <string name="has_ganado_10_euros">Has Ganado 10 euros</string>
     <string name="has_ganado_5_euros">Has Ganado 5 euros</string>
-    <string name="default_web_client_id">project-163831715992</string>
+    <string name="default_web_client_id">163831715992-qlj2stoaq0n7pcnb4g5otg8aapdsulab.apps.googleusercontent.com</string>
 
 
 </resources>

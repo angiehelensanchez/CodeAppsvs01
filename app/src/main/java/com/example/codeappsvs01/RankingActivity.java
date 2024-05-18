@@ -63,10 +63,18 @@ public class RankingActivity extends AppCompatActivity {
 
         playAgainButton = findViewById(R.id.playAgainButton);
         playAgainButton.setOnClickListener(v -> {
+            // Recuperar el nombre del jugador y las monedas de la intent
+            String playerName = getIntent().getStringExtra("PLAYER_NAME");
+            int coinAmount = getIntent().getIntExtra("COIN_AMOUNT", 0);
+
+            // Crear un intent para iniciar MainActivity y pasar los datos del jugador
             Intent intent = new Intent(RankingActivity.this, MainActivity.class);
+            intent.putExtra("PLAYER_NAME", playerName);
+            intent.putExtra("COIN_AMOUNT", coinAmount);
             startActivity(intent);
             finish();
         });
+
 
         exitButton = findViewById(R.id.exitButton);
         exitButton.setOnClickListener(v -> {

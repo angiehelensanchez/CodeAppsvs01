@@ -5,7 +5,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,18 +42,20 @@ public class FirebaseDatabaseHelper {
     }
 
     public void getAllPlayerResults(OnResultsListener<PlayerResult> listener) {
-        playerResultCollection.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                List<PlayerResult> playerResults = new ArrayList<>();
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    PlayerResult playerResult = document.toObject(PlayerResult.class);
-                    playerResults.add(playerResult);
-                }
-                listener.onSuccess(playerResults);
-            } else {
-                listener.onFailure(task.getException());
-            }
-        });
+        playerResultCollection.orderBy("result", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<PlayerResult> playerResults = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            PlayerResult playerResult = document.toObject(PlayerResult.class);
+                            playerResults.add(playerResult);
+                        }
+                        listener.onSuccess(playerResults);
+                    } else {
+                        listener.onFailure(task.getException());
+                    }
+                });
     }
 
     // Métodos para LocationDatas
@@ -68,6 +76,24 @@ public class FirebaseDatabaseHelper {
                 listener.onFailure(task.getException());
             }
         });
+    }
+    public void getHighestResult(OnResultListener<PlayerResult> listener) {
+        playerResultCollection.orderBy("result", Query.Direction.DESCENDING).limit(1)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        PlayerResult highestResult = task.getResult().getDocuments().get(0).toObject(PlayerResult.class);
+                        listener.onSuccess(highestResult);
+                    } else {
+                        listener.onFailure(task.getException());
+                    }
+                });
+    }
+
+    // Interfaz de callback para un solo resultado
+    public interface OnResultListener<T> {
+        void onSuccess(T result);
+        void onFailure(Exception e);
     }
 
     // Interfaz de callback genérica

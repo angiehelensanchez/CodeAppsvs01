@@ -28,7 +28,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mSlot1, mSlot2, mSlot3;
-    private TextView  coinAmountTextView;
+    private TextView coinAmountTextView;
     private Button mJugar;
     private RelativeLayout mRelative;
     private String playerName;
@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private WebView webView;
     private Button toggleWebViewButton;
+    private int highestResult = 0;
+
     @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,22 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "onCreate called");
         setContentView(R.layout.activity_main);
         EdgeToEdge.enable(this);
+
+        // Obtener el récord actual
+        FirebaseDatabaseHelper.getInstance().getHighestResult(new FirebaseDatabaseHelper.OnResultListener<PlayerResult>() {
+            @Override
+            public void onSuccess(PlayerResult result) {
+                if (result != null) {
+                    highestResult = result.getResult();
+                }
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Log.e("MainActivity", "Error fetching highest result", e);
+            }
+        });
+
         webView = findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
         toggleWebViewButton = findViewById(R.id.button);
@@ -68,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
         MediaPlayer botonSound = MediaPlayer.create(this, R.raw.pulsar_boton);
 
-
         TextView playerNameTextView = findViewById(R.id.playerNameTextView);
         coinAmountTextView = findViewById(R.id.coinAmountTextView);
         playerNameTextView.setText(playerName);
@@ -80,15 +97,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 playerResult = new PlayerResult(playerName, mIntGanancias);
-                insertPlayerResultInDatabase(playerResult);
+                checkAndInsertPlayerResult(playerResult);
             }
         });
+
         mSlot1 = findViewById(R.id.mainActivitySlot1);
         mSlot2 = findViewById(R.id.mainActivitySlot2);
         mSlot3 = findViewById(R.id.mainActivitySlot3);
 
-        mJugar=findViewById(R.id.mainActivityBtJugar);
-        mRelative=findViewById(R.id.main);
+        mJugar = findViewById(R.id.mainActivityBtJugar);
+        mRelative = findViewById(R.id.main);
         mRandom = new Random();
         mIntGanancias = coinAmount;
 
@@ -97,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
         mJugar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startSlotAnimation();
                 mediaPlayer.start();
                 botonSound.seekTo(0);
@@ -120,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     private void startSlotAnimation() {
         mSlot1.setImageResource(R.drawable.animation);
         final AnimationDrawable slot1Anim = (AnimationDrawable) mSlot1.getDrawable();
@@ -136,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void stopSlotAnimation() {
-        // Detener la animación de las imágenes de los slots
         AnimationDrawable slot1Anim = (AnimationDrawable) mSlot1.getDrawable();
         slot1Anim.stop();
 
@@ -147,13 +162,12 @@ public class MainActivity extends AppCompatActivity {
         slot3Anim.stop();
     }
 
-
-    private void ponerImagenes(){
+    private void ponerImagenes() {
         mIntSlot1 = mRandom.nextInt(6);
         mIntSlot2 = mRandom.nextInt(6);
         mIntSlot3 = mRandom.nextInt(6);
 
-        switch (mIntSlot1){
+        switch (mIntSlot1) {
             case 0:
                 mSlot1.setImageResource(R.drawable.ic_ancla);
                 break;
@@ -173,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 mSlot1.setImageResource(R.drawable.ic_viejo);
                 break;
         }
-        switch (mIntSlot2){
+        switch (mIntSlot2) {
             case 0:
                 mSlot2.setImageResource(R.drawable.ic_ancla);
                 break;
@@ -193,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                 mSlot2.setImageResource(R.drawable.ic_viejo);
                 break;
         }
-        switch (mIntSlot3){
+        switch (mIntSlot3) {
             case 0:
                 mSlot3.setImageResource(R.drawable.ic_ancla);
                 break;
@@ -213,8 +227,8 @@ public class MainActivity extends AppCompatActivity {
                 mSlot3.setImageResource(R.drawable.ic_viejo);
                 break;
         }
-
     }
+
     private void dineroAcumulado() {
         mIntGanancias -= 1;
         Toast.makeText(getApplicationContext(), R.string.has_lanzado_1_euro, Toast.LENGTH_SHORT).show();
@@ -229,24 +243,44 @@ public class MainActivity extends AppCompatActivity {
         coinAmountTextView.setText(getString(R.string.coin_amount, mIntGanancias));
     }
 
+    private void checkAndInsertPlayerResult(PlayerResult playerResult) {
+        FirebaseDatabaseHelper dbHelper = FirebaseDatabaseHelper.getInstance();
+        dbHelper.getHighestResult(new FirebaseDatabaseHelper.OnResultListener<PlayerResult>() {
+            @Override
+            public void onSuccess(PlayerResult highestResult) {
+                if (highestResult == null || playerResult.getResult() > highestResult.getResult()) {
+                    // Si el jugador ha batido el récord
+                    playerResult.setResult(playerResult.getResult() + 5);
+                    Toast.makeText(MainActivity.this, "¡Felicidades! Has batido el récord y ganado 5 monedas adicionales.", Toast.LENGTH_LONG).show();
+                }
+                insertPlayerResultInDatabase(playerResult);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Log.e("MainActivity", "Error fetching highest result", e);
+                insertPlayerResultInDatabase(playerResult);
+            }
+        });
+    }
+
     @SuppressLint("CheckResult")
     private void insertPlayerResultInDatabase(PlayerResult playerResult) {
-        FirebaseDatabaseHelper dbHelper = FirebaseDatabaseHelper.getInstance();
-        dbHelper.addPlayerResult(playerResult);
+        FirebaseDatabaseHelper.getInstance().addPlayerResult(playerResult);
         Log.d("MainActivity", "Resultado insertado correctamente.");
         Intent rankingIntent = new Intent(MainActivity.this, RankingActivity.class);
         startActivity(rankingIntent);
     }
 
-        @Override
-        protected void onDestroy() {
-            super.onDestroy();
-            // Liberar recursos del reproductor de música
-            if (mediaPlayer != null) {
-                mediaPlayer.release();
-                mediaPlayer = null;
-            }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
+
     private void loadWebView() {
         webView.loadUrl("file:///android_asset/guia.html");
     }

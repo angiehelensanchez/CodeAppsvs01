@@ -65,6 +65,11 @@ public class StartActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
 
+    private EditText playerNameEditText;
+    private EditText coinAmountEditText;
+
+    private static final int RC_COIN_AMOUNT = 9002;  // Declaración de la constante RC_COIN_AMOUNT
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,8 +136,8 @@ public class StartActivity extends AppCompatActivity {
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
-        final EditText playerNameEditText = findViewById(R.id.playerName);
-        final EditText coinAmountEditText = findViewById(R.id.coinAmount);
+        playerNameEditText = findViewById(R.id.playerName);
+        coinAmountEditText = findViewById(R.id.coinAmount);
         Button startGameButton = findViewById(R.id.startGameButton);
         Button googleSignInButton = findViewById(R.id.googleSignInButton);
         Button musicToggleButton = findViewById(R.id.musicToggleButton);
@@ -149,7 +154,11 @@ public class StartActivity extends AppCompatActivity {
                 } catch (NumberFormatException e) {
                     coinAmount = 0;
                 }
-                checkUserExists(playerName, coinAmount);
+                if (coinAmount > 0) {
+                    proceedToGame(playerName, coinAmount);
+                } else {
+                    Toast.makeText(StartActivity.this, "Please enter a valid coin amount", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -216,7 +225,7 @@ public class StartActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
+                promptForCoinAmount(account.getDisplayName(), account.getIdToken());
             } catch (ApiException e) {
                 Toast.makeText(this, "Google sign in failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -241,10 +250,26 @@ public class StartActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Permiso denegado para acceder al archivo de música seleccionado.", Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == RC_COIN_AMOUNT && resultCode == RESULT_OK) {
+            if (data != null) {
+                String playerName = data.getStringExtra("PLAYER_NAME");
+                int coinAmount = data.getIntExtra("COIN_AMOUNT", 0);
+                String idToken = data.getStringExtra("ID_TOKEN");
+                firebaseAuthWithGoogle(idToken, playerName, coinAmount);
+            }
         }
     }
 
-    private void firebaseAuthWithGoogle(String idToken) {
+
+    private void promptForCoinAmount(String playerName, String idToken) {
+        // Mostrar un diálogo o una nueva actividad para que el usuario ingrese la cantidad de monedas
+        Intent intent = new Intent(this, CoinAmountActivity.class);
+        intent.putExtra("PLAYER_NAME", playerName);
+        intent.putExtra("ID_TOKEN", idToken);
+        startActivityForResult(intent, RC_COIN_AMOUNT);
+    }
+
+    private void firebaseAuthWithGoogle(String idToken, String playerName, int coinAmount) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<>() {
@@ -253,7 +278,7 @@ public class StartActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                checkUserExists(user.getDisplayName(), 0);
+                                proceedToGame(playerName, coinAmount);
                             }
                         } else {
                             Toast.makeText(StartActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
@@ -262,33 +287,11 @@ public class StartActivity extends AppCompatActivity {
                 });
     }
 
-    private void checkUserExists(String playerName, int coinAmount) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("PlayerResults")
-                .whereEqualTo("playerName", playerName)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            boolean userExists = false;
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                userExists = true;
-                                break;
-                            }
-                            if (userExists) {
-                                Toast.makeText(StartActivity.this, "Username already exists.", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Intent intent = new Intent(StartActivity.this, MainActivity.class);
-                                intent.putExtra("PLAYER_NAME", playerName);
-                                intent.putExtra("COIN_AMOUNT", coinAmount);
-                                startActivity(intent);
-                            }
-                        } else {
-                            Toast.makeText(StartActivity.this, "Error checking username.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+    private void proceedToGame(String playerName, int coinAmount) {
+        Intent intent = new Intent(StartActivity.this, MainActivity.class);
+        intent.putExtra("PLAYER_NAME", playerName);
+        intent.putExtra("COIN_AMOUNT", coinAmount);
+        startActivity(intent);
     }
 
     @Override
